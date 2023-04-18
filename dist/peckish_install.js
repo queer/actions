@@ -10810,7 +10810,7 @@ var exec = __toESM(require_exec());
     throw new Error("could not find binary");
   }
   const path = await tc.downloadTool(binary.browser_download_url);
-  await tc.cacheFile(path, "peckish", "peckish", release.data.tag_name);
+  await tc.cacheFile(path.dirname(path), "peckish", "peckish", release.data.tag_name);
   core.addPath(path);
   const exit = await exec.exec("peckish", ["-V"], { silent: false });
   if (exit !== 0) {

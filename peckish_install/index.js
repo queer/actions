@@ -2,6 +2,7 @@ import * as core from "@actions/core"
 import * as github from "@actions/github"
 import * as tc from "@actions/tool-cache"
 import * as exec from "@actions/exec"
+import * as path from "node:path"
 
 (async () => {
   console.log("installing peckish...")
@@ -18,7 +19,7 @@ import * as exec from "@actions/exec"
   }
 
   const path = await tc.downloadTool(binary.browser_download_url)
-  await tc.cacheFile(path, "peckish", "peckish", release.data.tag_name)
+  await tc.cacheFile(path.dirname(path), "peckish", "peckish", release.data.tag_name)
   core.addPath(path)
   const exit = await exec.exec("peckish", ["-V"], {silent: false})
   if(exit !== 0) {
