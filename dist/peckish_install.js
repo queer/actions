@@ -10811,6 +10811,8 @@ var path = __toESM(require("node:path"));
     throw new Error("could not find binary");
   }
   const tcPath = await tc.downloadTool(binary.browser_download_url);
+  console.log({ tcPath });
+  console.log({ tcPath: path.dirname(tcPath) });
   core.addPath(path.dirname(tcPath));
   const exit = await exec.exec("peckish", ["-V"], { silent: false });
   if (exit !== 0) {
