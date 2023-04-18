@@ -3,3 +3,8 @@ description: "Runs peckish at pwd"
 runs:
   using: "node18"
   main: "index.js"
+inputs:
+  config:
+    description: "peckish config file"
+    required: false
+    default: "peckish.yaml"
