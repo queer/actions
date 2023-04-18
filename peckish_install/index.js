@@ -19,6 +19,8 @@ import * as path from "node:path"
   }
 
   const tcPath = await tc.downloadTool(binary.browser_download_url)
+  console.log({tcPath})
+  console.log({tcPath: path.dirname(tcPath)})
   core.addPath(path.dirname(tcPath))
   const exit = await exec.exec("peckish", ["-V"], {silent: false})
   if(exit !== 0) {
