@@ -10811,7 +10811,7 @@ var path = __toESM(require("node:path"));
     throw new Error("could not find binary");
   }
   const tmpTarPath = await tc.downloadTool(binary.browser_download_url);
-  const tcPath = await tc.extractTar(tmpTarPath, "/usr/local/bin", "xvf");
+  const tcPath = await tc.extractTar(tmpTarPath, "/usr/local/bin", "-x");
   core.addPath(path.dirname(tcPath));
   const exit = await exec.exec("peckish", ["-V"], { silent: false });
   if (exit !== 0) {
