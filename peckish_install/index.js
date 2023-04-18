@@ -19,7 +19,7 @@ import * as path from "node:path"
   }
 
   const tmpTarPath = await tc.downloadTool(binary.browser_download_url)
-  const tcPath = tc.extractTar(tmpTarPath, "/usr/local/bin")
+  const tcPath = await tc.extractTar(tmpTarPath, "/usr/local/bin")
   core.addPath(path.dirname(tcPath))
   const exit = await exec.exec("peckish", ["-V"], {silent: false})
   if(exit !== 0) {
