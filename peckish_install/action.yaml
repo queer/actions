@@ -3,3 +3,7 @@ description: "Installs the latest version of peckish"
 runs:
   using: "node16"
   main: "../dist/peckish_install.js"
+inputs:
+  token:
+    description: "GitHub token"
+    required: true
