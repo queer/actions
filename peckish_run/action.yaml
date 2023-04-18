@@ -1,7 +1,7 @@
 name: "Runs peckish"
 description: "Runs peckish at pwd"
 runs:
-  using: "node18"
+  using: "node16"
   main: "index.js"
 inputs:
   config:
