@@ -3239,13 +3239,11 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
 });
 
 // index.js
-var peckish_run_exports = {};
-__export(peckish_run_exports, {
-  default: () => peckish_run_default
-});
-module.exports = __toCommonJS(peckish_run_exports);
 var exec = __toESM(require_exec());
 var core = __toESM(require_core());
-var peckish_run_default = async () => {
-  await exec.exec("peckish", ["-c", core.getInput("config")]);
-};
+(async () => {
+  const exit = await exec.exec("peckish", ["-c", core.getInput("config")]);
+  if (exit !== 0) {
+    throw new Error("peckish failed to run!?");
+  }
+})();

@@ -4,11 +4,13 @@ import * as tc from "@actions/tool-cache"
 import * as exec from "@actions/exec"
 
 (async () => {
+  console.log("installing peckish...")
   const octokit = github.getOctokit(opts.token)
   const release = await octokit.rest.repos.getLatestRelease({
     owner: "queer",
     repo: "peckish",
   })
+  console.log("fetched release:", release.data.tag_name)
   const binary = release.data.assets.find(asset => asset.name === "peckish")
   if(!binary) {
     throw new Error("could not find binary")
@@ -21,4 +23,5 @@ import * as exec from "@actions/exec"
   if(exit !== 0) {
     throw new Error("peckish failed to install!?")
   }
+  console.log("done!")
 })()

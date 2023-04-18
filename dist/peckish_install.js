@@ -10792,21 +10792,18 @@ var require_tool_cache = __commonJS({
 });
 
 // index.js
-var peckish_install_exports = {};
-__export(peckish_install_exports, {
-  default: () => peckish_install_default
-});
-module.exports = __toCommonJS(peckish_install_exports);
 var core = __toESM(require_core());
 var github = __toESM(require_github());
 var tc = __toESM(require_tool_cache());
 var exec = __toESM(require_exec());
-var peckish_install_default = async () => {
+(async () => {
+  console.log("installing peckish...");
   const octokit = github.getOctokit(opts.token);
   const release = await octokit.rest.repos.getLatestRelease({
     owner: "queer",
     repo: "peckish"
   });
+  console.log("fetched release:", release.data.tag_name);
   const binary = release.data.assets.find((asset) => asset.name === "peckish");
   if (!binary) {
     throw new Error("could not find binary");
@@ -10814,8 +10811,12 @@ var peckish_install_default = async () => {
   const path = await tc.downloadTool(binary.browser_download_url);
   await tc.cacheFile(path, "peckish", "peckish", release.data.tag_name);
   core.addPath(path);
-  exec.exec("peckish", ["-V"]);
-};
+  const exit = await exec.exec("peckish", ["-V"], { silent: false });
+  if (exit !== 0) {
+    throw new Error("peckish failed to install!?");
+  }
+  console.log("done!");
+})();
 /*! Bundled license information:
 
 is-plain-object/dist/is-plain-object.js:
