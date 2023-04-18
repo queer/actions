@@ -17,5 +17,8 @@ import * as exec from "@actions/exec"
   const path = await tc.downloadTool(binary.browser_download_url)
   await tc.cacheFile(path, "peckish", "peckish", release.data.tag_name)
   core.addPath(path)
-  await exec.exec("peckish", ["-V"], {silent: false})
+  const exit = await exec.exec("peckish", ["-V"], {silent: false})
+  if(exit !== 0) {
+    throw new Error("peckish failed to install!?")
+  }
 })()
