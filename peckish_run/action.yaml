@@ -2,7 +2,7 @@ name: "Runs peckish"
 description: "Runs peckish at pwd"
 runs:
   using: "node16"
-  main: "index.js"
+  main: "../dist/peckish_run.js"
 inputs:
   config:
     description: "peckish config file"
