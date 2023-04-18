@@ -13,14 +13,13 @@ import * as path from "node:path"
     repo: "peckish",
   })
   console.log("fetched release:", release.data.tag_name)
-  const binary = release.data.assets.find(asset => asset.name === "peckish")
+  const binary = release.data.assets.find(asset => asset.name === "peckish.tar")
   if(!binary) {
     throw new Error("could not find binary")
   }
 
-  const tcPath = await tc.downloadTool(binary.browser_download_url)
-  console.log({tcPath})
-  console.log({tcPath: path.dirname(tcPath)})
+  const tmpTarPath = await tc.downloadTool(binary.browser_download_url)
+  const tcPath = tc.extractTar(tmpTarPath, "/usr/local/bin")
   core.addPath(path.dirname(tcPath))
   const exit = await exec.exec("peckish", ["-V"], {silent: false})
   if(exit !== 0) {
