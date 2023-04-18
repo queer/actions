@@ -3,7 +3,7 @@ import * as github from "@actions/github"
 import * as tc from "@actions/tool-cache"
 import * as exec from "@actions/exec"
 
-export default async () => {
+(async () => {
   const octokit = github.getOctokit(opts.token)
   const release = await octokit.rest.repos.getLatestRelease({
     owner: "queer",
@@ -18,4 +18,4 @@ export default async () => {
   await tc.cacheFile(path, "peckish", "peckish", release.data.tag_name)
   core.addPath(path)
   await exec.exec("peckish", ["-V"], {silent: false})
-}
+})()
