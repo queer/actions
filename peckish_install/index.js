@@ -18,8 +18,9 @@ import * as path from "node:path"
     throw new Error("could not find binary")
   }
 
-  const tcPath = await tc.downloadTool(binary.browser_download_url)
-  core.addPath(tcPath)
+  const out = "./peckish"
+  await tc.downloadTool(binary.browser_download_url, out)
+  core.addPath(out)
   const exit = await exec.exec("peckish", ["-V"], {silent: false})
   if(exit !== 0) {
     throw new Error("peckish failed to install!?")
