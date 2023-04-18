@@ -2831,11 +2831,11 @@ var require_lib2 = __commonJS({
       const upperBound = Math.pow(2, bitLength) - 1;
       const moduloVal = typeOpts.moduloBitLength ? Math.pow(2, typeOpts.moduloBitLength) : Math.pow(2, bitLength);
       const moduloBound = typeOpts.moduloBitLength ? Math.pow(2, typeOpts.moduloBitLength - 1) : Math.pow(2, bitLength - 1);
-      return function(V, opts2) {
-        if (!opts2)
-          opts2 = {};
+      return function(V, opts) {
+        if (!opts)
+          opts = {};
         let x = +V;
-        if (opts2.enforceRange) {
+        if (opts.enforceRange) {
           if (!Number.isFinite(x)) {
             throw new TypeError("Argument is not a finite number");
           }
@@ -2845,7 +2845,7 @@ var require_lib2 = __commonJS({
           }
           return x;
         }
-        if (!isNaN(x) && opts2.clamp) {
+        if (!isNaN(x) && opts.clamp) {
           x = evenRound(x);
           if (x < lowerBound)
             x = lowerBound;
@@ -2900,15 +2900,15 @@ var require_lib2 = __commonJS({
     };
     conversions["float"] = conversions["double"];
     conversions["unrestricted float"] = conversions["unrestricted double"];
-    conversions["DOMString"] = function(V, opts2) {
-      if (!opts2)
-        opts2 = {};
-      if (opts2.treatNullAsEmptyString && V === null) {
+    conversions["DOMString"] = function(V, opts) {
+      if (!opts)
+        opts = {};
+      if (opts.treatNullAsEmptyString && V === null) {
         return "";
       }
       return String(V);
     };
-    conversions["ByteString"] = function(V, opts2) {
+    conversions["ByteString"] = function(V, opts) {
       const x = String(V);
       let c = void 0;
       for (let i = 0; (c = x.codePointAt(i)) !== void 0; ++i) {
@@ -2946,7 +2946,7 @@ var require_lib2 = __commonJS({
       }
       return U.join("");
     };
-    conversions["Date"] = function(V, opts2) {
+    conversions["Date"] = function(V, opts) {
       if (!(V instanceof Date)) {
         throw new TypeError("Argument is not a Date object");
       }
@@ -2955,7 +2955,7 @@ var require_lib2 = __commonJS({
       }
       return V;
     };
-    conversions["RegExp"] = function(V, opts2) {
+    conversions["RegExp"] = function(V, opts) {
       if (!(V instanceof RegExp)) {
         V = new RegExp(V);
       }
@@ -5339,10 +5339,10 @@ var require_lib3 = __commonJS({
     var Response = class {
       constructor() {
         let body = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null;
-        let opts2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-        Body.call(this, body, opts2);
-        const status = opts2.status || 200;
-        const headers = new Headers(opts2.headers);
+        let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+        Body.call(this, body, opts);
+        const status = opts.status || 200;
+        const headers = new Headers(opts.headers);
         if (body != null && !headers.has("Content-Type")) {
           const contentType = extractContentType(body);
           if (contentType) {
@@ -5350,11 +5350,11 @@ var require_lib3 = __commonJS({
           }
         }
         this[INTERNALS$1] = {
-          url: opts2.url,
+          url: opts.url,
           status,
-          statusText: opts2.statusText || STATUS_CODES[status],
+          statusText: opts.statusText || STATUS_CODES[status],
           headers,
-          counter: opts2.counter
+          counter: opts.counter
         };
       }
       get url() {
@@ -5584,13 +5584,13 @@ var require_lib3 = __commonJS({
       const dest = new URL$1(destination).protocol;
       return orig === dest;
     };
-    function fetch(url, opts2) {
+    function fetch(url, opts) {
       if (!fetch.Promise) {
         throw new Error("native promise missing, set fetch.Promise to your favorite alternative");
       }
       Body.Promise = fetch.Promise;
       return new fetch.Promise(function(resolve, reject) {
-        const request = new Request(url, opts2);
+        const request = new Request(url, opts);
         const options = getNodeRequestOptions(request);
         const send = (options.protocol === "https:" ? https : http).request;
         const signal = request.signal;
@@ -7705,12 +7705,12 @@ var require_utils4 = __commonJS({
     };
     exports.GitHub = core_1.Octokit.plugin(plugin_rest_endpoint_methods_1.restEndpointMethods, plugin_paginate_rest_1.paginateRest).defaults(exports.defaults);
     function getOctokitOptions(token, options) {
-      const opts2 = Object.assign({}, options || {});
-      const auth = Utils.getAuthString(token, opts2);
+      const opts = Object.assign({}, options || {});
+      const auth = Utils.getAuthString(token, opts);
       if (auth) {
-        opts2.auth = auth;
+        opts.auth = auth;
       }
-      return opts2;
+      return opts;
     }
     exports.getOctokitOptions = getOctokitOptions;
   }
@@ -10798,7 +10798,7 @@ var tc = __toESM(require_tool_cache());
 var exec = __toESM(require_exec());
 (async () => {
   console.log("installing peckish...");
-  const octokit = github.getOctokit(opts.token);
+  const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
   const release = await octokit.rest.repos.getLatestRelease({
     owner: "queer",
     repo: "peckish"
