@@ -5,7 +5,7 @@ import * as exec from "@actions/exec"
 
 (async () => {
   console.log("installing peckish...")
-  const octokit = github.getOctokit(opts.token)
+  const octokit = github.getOctokit(process.env.GITHUB_TOKEN)
   const release = await octokit.rest.repos.getLatestRelease({
     owner: "queer",
     repo: "peckish",
