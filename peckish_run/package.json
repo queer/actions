@@ -1,0 +1,9 @@
+{
+  "name": "peckish_run",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/exec": "^1.1.1"
+  }
+}

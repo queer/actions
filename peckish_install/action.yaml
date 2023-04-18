@@ -1,0 +1,5 @@
+name: "Installs peckish"
+description: "Installs the latest version of peckish"
+runs:
+  using: "node18"
+  main: "index.js"
