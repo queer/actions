@@ -1,5 +1,5 @@
 name: "Installs peckish"
 description: "Installs the latest version of peckish"
 runs:
-  using: "node16/t"
+  using: "node16"
   main: "index.js"
